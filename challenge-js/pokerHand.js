@@ -1,34 +1,38 @@
 class PokerHand {
   constructor() {}
 
-  getRank() {
-    // Implement poker hand ranking
-
-    // Possible ranks:
-    // Royal Flush
-    // Straight Flush
-    // Four of a Kind
-    // Full House
-    // Flush
-    // Straight
-    // Three of a Kind
-    // Two Pair
-    // One Pair
-    // High Card
-
-    function evaluatePokerHand(hand){
+  getRank(hand) {
       const suits = {};
       const values = {};
       const sortedValues = [];
 
       hand.forEach(card => {
         // extract value and suit of card
+        const value = card.slice(0,-1);
+        const suit = card.slice(-1);
+        
         // increment the count of the suit in suits obj
         // increment the count of the value in values obj
-    }
+        // if suits[suit] is undefined, set it to 0 and increment
+        suits[suit] = (suits[suit] || 0) + 1;
+        values[value] = (values[value] || 0) + 1;
+    });
 
     // for each value in values obj
       // add an object containing value and count to sortedValues
+    for (const value in values) { 
+      console.log(sortedValues);
+      sortedValues.push({value, count: values[value]});
+    };
+
+    // sort sortedValues by count descending
+    sortedValues.sort((a, b) => {
+      const rankA = '23456789TJQKA'.indexOf(a.value);
+      const rankB = '23456789TJQKA'.indexOf(b.value);
+
+      console.log(rankA);
+      return rankB - rankA;
+    });
 
     // check if the hand is a flush (all cards have the same suit)
 
@@ -57,7 +61,6 @@ class PokerHand {
       // return 'High Card'
 
     return 'Royal Flush';
-  }
 }
 
 module.exports = PokerHand;
