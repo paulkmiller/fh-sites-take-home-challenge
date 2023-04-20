@@ -35,23 +35,48 @@ class PokerHand {
       return rankA - rankB;
     });
     
-    console.log(sortedValues);
-
     // check if the hand is a flush (all cards have the same suit)
     const isFlush = Object.keys(suits).length === 1;
-
+    
     // check if the hand is a straight (all cards are consecutive values)
+
+    // initial attempt
     // const isStraight =
     //   sortedValues[0].count === 1 &&
     //   sortedValues[0].value === 'A' &&
     //   sortedValues[1].value === '5';
+    
+    // refactor attempt
+    // const isStraight = sortedValues.every((card, i, arr) => {
+    //   if (i === 0) return true;
+    //   const prevRank = 'A23456789TJQK'.indexOf(arr[i - 1].value);
+    //   const currantRank = 'A23456789TJQK'.indexOf(card.value);
+    //   return currantRank === prevRank + 1 || (i === 4 && prevRank === 11 && currantRank === 0);
+    // });
 
-    const isStraight = sortedValues.every((card, i, arr) => {
-      if (i === 0) return true;
-      const prevRank = 'A23456789TJQK'.indexOf(arr[i - 1].value);
-      const currantRank = 'A23456789TJQK'.indexOf(card.value);
-      return currantRank === prevRank + 1 || (i === 4 && prevRank === 11 && currantRank === 0);
-    });
+    // works but not very readable
+    // function isStraight(sortedValues) {
+    //   const ranks = 'A23456789TJQK';
+    //   const handString = sortedValues.map((item) => item.value).join('');
+    //   const index = ranks.indexOf(handString);
+    
+    //   return (
+    //     index !== -1 ||
+    //     handString === '2345A' // Special case for A-2-3-4-5 straight
+    //   );
+    // }
+
+    function isStraight(sortedValues) {
+      const ranks = 'A23456789TJQK';
+      const handString = sortedValues.map((item) => item.value).join('');
+    
+      const isConsecutive = ranks.includes(handString);
+      const isLowAceStraight = handString === '2345A';
+
+      const allUnique = sortedValues.every((card) => card.count === 1);
+    
+      return allUnique && (isConsecutive || isLowAceStraight);
+    }
 
     // determine the rank of the hand based on flush and straight conditions + group counts
     if (isFlush && isStraight && sortedValues[0].value === 'A') {
