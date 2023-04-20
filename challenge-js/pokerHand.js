@@ -1,7 +1,10 @@
 class PokerHand {
-  constructor() {}
+  constructor(hand) {
+    this.hand = hand.split(' ');
+  }
 
-  getRank(hand) {
+  getRank() {
+      const hand = this.hand;
       const suits = {};
       const values = {};
       const sortedValues = [];
@@ -21,7 +24,6 @@ class PokerHand {
     // for each value in values obj
       // add an object containing value and count to sortedValues
     for (const value in values) { 
-      console.log(sortedValues);
       sortedValues.push({value, count: values[value]});
     };
 
@@ -30,7 +32,6 @@ class PokerHand {
       const rankA = '23456789TJQKA'.indexOf(a.value);
       const rankB = '23456789TJQKA'.indexOf(b.value);
 
-      console.log(rankA);
       return rankB - rankA;
     });
 
