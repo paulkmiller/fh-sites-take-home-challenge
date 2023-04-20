@@ -61,6 +61,7 @@ class PokerHand {
       // return 'High Card'
 
     return 'Royal Flush';
+  }
 }
 
 module.exports = PokerHand;
