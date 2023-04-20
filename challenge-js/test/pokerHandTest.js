@@ -45,3 +45,46 @@ describe('Rank A Flush', function() {
 });
 
 // More tests go here
+// tests to add:
+// straight flush, four of a kind, three of a kind, full house, straight, high card
+describe('Rank a Straight Flush', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand('6s 5s 4s 3s 2s');
+    assert.equal(hand.getRank(), 'Straight Flush');
+  });
+});
+
+describe('Rank a Four of a Kind', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand('8h 8s 8d 8c 2d');
+    assert.equal(hand.getRank(), 'Four of a Kind');
+  });
+});
+
+describe('Rank a Three of a Kind', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand('Qs Qd Qc 4s 3h');
+    assert.equal(hand.getRank(), 'Three of a Kind');
+  });
+});
+
+describe('Rank a Full House', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand(' 9h 9s 9c 5d 5s');
+    assert.equal(hand.getRank(), 'Full House');
+  });
+});
+
+describe('Rank a Straight', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand('9d 8c 7h 6s 5d');
+    assert.equal(hand.getRank(), 'Straight');
+  });
+});
+
+describe('Rank a High Card', function() {
+  it('Return royal flush when hand given', function() {
+    var hand = new PokerHand('Ac 8d 6s 4h 2c');
+    assert.equal(hand.getRank(), 'High Card');
+  });
+});

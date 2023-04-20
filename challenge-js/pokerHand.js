@@ -41,22 +41,39 @@ class PokerHand {
     const isFlush = Object.keys(suits).length === 1;
 
     // check if the hand is a straight (all cards are consecutive values)
-    //
-    const isStraight =
-      sortedValues[0].count === 1 &&
-      sortedValues[0].value === 'A' &&
-      sortedValues[1].value === '5';
+    const isStraight = () => {
+      if (sortedValues.length !== 5) {
+        return false;
+      }
+    
+      let straightCount = 0;
+      for (let i = 1; i < sortedValues.length; i++) {
+        const rankA = '23456789TJQKA'.indexOf(sortedValues[i - 1].value);
+        const rankB = '23456789TJQKA'.indexOf(sortedValues[i].value);
+    
+        if (rankA - rankB === 1) {
+          straightCount++;
+        } else if (i === 4 && rankA === 12 && rankB === 0) {
+          // Special case: Ace low straight
+          straightCount++;
+        } else {
+          return false;
+        }
+      }
+    
+      return straightCount === 4;
+    };
+    
+    const isStraightResult = isStraight();
 
     // determine the rank of the hand based on flush and straight conditions + group counts
-    if (isFlush && isStraight && sortedValues[0].value === 'A') {
-      // returns flush instead of royal flush with the following hand: As Ks Qs Js 10s
-      // console.log shows the values are not arranged properly; 10 A K Q J instead of A K Q J 10
+    if (isFlush && isStraightResult && sortedValues[0].value === 'A') {
       return 'Royal Flush';
-    } else if (isFlush && isStraight) {
+    } else if (isFlush && isStraightResult) {
       return 'Straight Flush';
     } else if (isFlush) {
       return 'Flush';
-    } else if (isStraight) {
+    } else if (isStraightResult) {
       return 'Straight';
     } else if (sortedValues[0].count === 4) {
       return 'Four of a Kind';
