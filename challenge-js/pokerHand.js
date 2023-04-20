@@ -54,18 +54,7 @@ class PokerHand {
     //   return currantRank === prevRank + 1 || (i === 4 && prevRank === 11 && currantRank === 0);
     // });
 
-    // works but not very readable
-    // function isStraight(sortedValues) {
-    //   const ranks = 'A23456789TJQK';
-    //   const handString = sortedValues.map((item) => item.value).join('');
-    //   const index = ranks.indexOf(handString);
-    
-    //   return (
-    //     index !== -1 ||
-    //     handString === '2345A' // Special case for A-2-3-4-5 straight
-    //   );
-    // }
-
+    // 2nd refactor atttempt
     function isStraight(sortedValues) {
       const ranks = 'A23456789TJQK';
       const handString = sortedValues.map((item) => item.value).join('');
@@ -80,8 +69,8 @@ class PokerHand {
 
     // determine the rank of the hand based on flush and straight conditions + group counts
     if (isFlush && isStraight && sortedValues[0].value === 'A') {
-      // returns flush instead of royal flush with the following hand: As Ks Qs Js 10s
-      // console.log shows the values are not arranged properly; 10 A K Q J instead of A K Q J 10
+      // returns straight flush instead of royal flush with the following hand: As Ks Qs Js 10s
+      // maybe an issue with the isStraight function?
       return 'Royal Flush';
     } else if (isFlush && isStraight) {
       return 'Straight Flush';
