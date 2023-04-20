@@ -4,47 +4,59 @@ class PokerHand {
   }
 
   getRank() {
-      const hand = this.hand;
-      const suits = {};
-      const values = {};
-      const sortedValues = [];
+    const hand = this.hand;
+    const suits = {};
+    const values = {};
+    const sortedValues = [];
 
-      hand.forEach(card => {
-        // extract value and suit of card
-        const value = card.slice(0,-1);
-        const suit = card.slice(-1);
-        
-        // increment the count of the suit in suits obj
-        // increment the count of the value in values obj
-        // if suits[suit] is undefined, set it to 0 and increment
-        suits[suit] = (suits[suit] || 0) + 1;
-        values[value] = (values[value] || 0) + 1;
+    hand.forEach((card) => {
+      // extract value and suit of card
+      const value = card.slice(0, -1);
+      const suit = card.slice(-1);
+
+      // increment the count of the suit in suits obj
+      // increment the count of the value in values obj
+      // if suits[suit] is undefined, set it to 0 and increment
+      suits[suit] = (suits[suit] || 0) + 1;
+      values[value] = (values[value] || 0) + 1;
     });
 
     // for each value in values obj
-      // add an object containing value and count to sortedValues
-    for (const value in values) { 
-      sortedValues.push({value, count: values[value]});
-    };
+    // add an object containing value and count to sortedValues
+    for (const value in values) {
+      sortedValues.push({ value, count: values[value] });
+    }
 
-    // sort sortedValues by count descending
+    // sort sortedValues by count ascending
     sortedValues.sort((a, b) => {
-      const rankA = '23456789TJQKA'.indexOf(a.value);
-      const rankB = '23456789TJQKA'.indexOf(b.value);
-
-      return rankB - rankA;
+      const rankA = 'A23456789TJQK'.indexOf(a.value);
+      const rankB = 'A23456789TJQK'.indexOf(b.value);
+      
+      return rankA - rankB;
     });
+    
+    console.log(sortedValues);
 
     // check if the hand is a flush (all cards have the same suit)
     const isFlush = Object.keys(suits).length === 1;
-    
+
     // check if the hand is a straight (all cards are consecutive values)
-    const isStraight = sortedValues[0].count === 1 &&
-                       sortedValues[0].value === 'A' &&
-                       sortedValues[1].value === '5';
+    // const isStraight =
+    //   sortedValues[0].count === 1 &&
+    //   sortedValues[0].value === 'A' &&
+    //   sortedValues[1].value === '5';
+
+    const isStraight = sortedValues.every((card, i, arr) => {
+      if (i === 0) return true;
+      const prevRank = 'A23456789TJQK'.indexOf(arr[i - 1].value);
+      const currantRank = 'A23456789TJQK'.indexOf(card.value);
+      return currantRank === prevRank + 1 || (i === 4 && prevRank === 11 && currantRank === 0);
+    });
 
     // determine the rank of the hand based on flush and straight conditions + group counts
     if (isFlush && isStraight && sortedValues[0].value === 'A') {
+      // returns flush instead of royal flush with the following hand: As Ks Qs Js 10s
+      // console.log shows the values are not arranged properly; 10 A K Q J instead of A K Q J 10
       return 'Royal Flush';
     } else if (isFlush && isStraight) {
       return 'Straight Flush';
