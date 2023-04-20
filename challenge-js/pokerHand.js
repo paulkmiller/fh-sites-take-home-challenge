@@ -26,9 +26,7 @@ class PokerHand {
     for (const value in values) {
       sortedValues.push({ value, count: values[value] });
     }
-
-    console.log(sortedValues);
-
+    
     // sort sortedValues by count descending
     sortedValues.sort((a, b) => {
       const rankA = '23456789TJQKA'.indexOf(a.value);
